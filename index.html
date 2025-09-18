@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UBC Formula Electric 3D Model Showcase</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/loaders/GLTFLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { margin: 0; background-color: #f3f4f6; }
+    .model-canvas { width: 100%; height: 300px; }
+  </style>
+</head>
+<body>
+  <header class="bg-white-900 text-blue py-4">
+    <div class="container mx-auto px-4 flex items-center">
+      <img src="https://static.wixstatic.com/media/7a1da4_ee11c83bdd644b838d16caea4a710eed~mv2.png/v1/crop/x_0,y_768,w_6000,h_4416/fill/w_232,h_166,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/7a1da4_ee11c83bdd644b838d16caea4a710eed~mv2.png" alt="UBC Formula Electric Logo" class="h-12 mr-4">
+      <div>
+        <h1 class="text-3xl font-bold">UBC Formula Electric</h1>
+        <p class="text-lg">3D Model Showcase</p>
+      </div>
+    </div>
+  </header>
+  <main class="container mx-auto px-4 py-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="bg-white p-4 rounded-lg shadow">
+        <h2 class="text-xl font-semibold mb-2">CIM Main</h2>
+        <div id="canvas-CIM_Main" class="model-canvas"></div>
+      </div>
+      <div class="bg-white p-4 rounded-lg shadow">
+        <h2 class="text-xl font-semibold mb-2">CIM Top Lid</h2>
+        <div id="canvas-CIM_Top_Lid" class="model-canvas"></div>
+      </div>
+      <div class="bg-white p-4 rounded-lg shadow">
+        <h2 class="text-xl font-semibold mb-2">Dashboard Cover</h2>
+        <div id="canvas-Dashboard_Cover" class="model-canvas"></div>
+      </div>
+      <div class="bg-white p-4 rounded-lg shadow">
+        <h2 class="text-xl font-semibold mb-2">Dashboard Enclosure</h2>
+        <div id="canvas-Dashboard_Enclosure" class="model-canvas"></div>
+      </div>
+      <div class="bg-white p-4 rounded-lg shadow">
+        <h2 class="text-xl font-semibold mb-2">RSM Enclosure Inside</h2>
+        <div id="canvas-RSM_Enclosure_Inside" class="model-canvas"></div>
+      </div>
+      <div class="bg-white p-4 rounded-lg shadow">
+        <h2 class="text-xl font-semibold mb-2">RSM Enclosure Outside</h2>
+        <div id="canvas-RSM_Enclosure_Outside" class="model-canvas"></div>
+      </div>
+      <div class="bg-white p-4 rounded-lg shadow">
+        <h2 class="text-xl font-semibold mb-2">Telem Base</h2>
+        <div id="canvas-Telem_Base" class="model-canvas"></div>
+      </div>
+      <div class="bg-white p-4 rounded-lg shadow">
+        <h2 class="text-xl font-semibold mb-2">Telem Top</h2>
+        <div id="canvas-Telem_Top" class="model-canvas"></div>
+      </div>
+      <div class="bg-white p-4 rounded-lg shadow">
+        <h2 class="text-xl font-semibold mb-2">VC Base</h2>
+        <div id="canvas-VC_Base" class="model-canvas"></div>
+      </div>
+      <div class="bg-white p-4 rounded-lg shadow">
+        <h2 class="text-xl font-semibold mb-2">VC Connector Wall</h2>
+        <div id="canvas-VC_Connector_Wall" class="model-canvas"></div>
+      </div>
+      <div class="bg-white p-4 rounded-lg shadow">
+        <h2 class="text-xl font-semibold mb-2">VC Lid</h2>
+        <div id="canvas-VC_Lid" class="model-canvas"></div>
+      </div>
+    </div>
+  </main>
+  <script>
+    const models = [
+      "CIM_Main",
+      "CIM_Top_Lid",
+      "Dashboard_Cover",
+      "Dashboard_Enclosure",
+      "RSM_Enclosure_Inside",
+      "RSM_Enclosure_Outside",
+      "Telem_Base",
+      "Telem_Top",
+      "VC_Base",
+      "VC_Connector_Wall",
+      "VC_Lid"
+    ];
+
+    models.forEach(model => {
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+      const renderer = new THREE.WebGLRenderer({ antialias: true });
+      const canvas = document.getElementById(`canvas-${model}`);
+      
+      renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+      canvas.appendChild(renderer.domElement);
+
+      const controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.05;
+
+      const loader = new THREE.GLTFLoader();
+      loader.load(`models/${model}.glb`, (gltf) => {
+        scene.add(gltf.scene);
+        const box = new THREE.Box3().setFromObject(gltf.scene);
+        const center = box.getCenter(new THREE.Vector3());
+        const size = box.getSize(new THREE.Vector3());
+        const maxDim = Math.max(size.x, size.y, size.z);
+        const distance = maxDim * 1.2;
+        camera.position.set(
+          center.x + distance * Math.cos(Math.PI / 4),
+          center.y + distance * Math.sin(Math.PI / 4),
+          center.z + distance * Math.sin(Math.PI / 4)
+        );
+        camera.lookAt(center);
+        controls.target.copy(center);
+        controls.update();
+      }, undefined, (error) => {
+        console.error(`Error loading ${model}:`, error);
+      });
+
+      scene.background = new THREE.Color(0xdddddd);
+      const light1 = new THREE.DirectionalLight(0xffffff, 0.5);
+      light1.position.set(1, 1, 1);
+      scene.add(light1);
+      const light2 = new THREE.DirectionalLight(0xffffff, 0.5);
+      light2.position.set(-1, -1, -1);
+      scene.add(light2);
+      scene.add(new THREE.AmbientLight(0x404040));
+
+      function animate() {
+        requestAnimationFrame(animate);
+        controls.update();
+        renderer.render(scene, camera);
+      }
+      animate();
+
+      window.addEventListener('resize', () => {
+        renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+        camera.aspect = canvas.clientWidth / canvas.clientHeight;
+        camera.updateProjectionMatrix();
+      });
+    });
+  </script>
+</body>
+</html>
