@@ -3,14 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>UBC Formula Electric 3D Model Showcase</title>
+  <title>UBC Formula Electric 3D-Printing Model Showcase</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/loaders/GLTFLoader.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/controls/OrbitControls.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body { margin: 0; background-color: #f3f4f6; }
-    .model-canvas { width: 100%; height: 300px; }
+    .model-canvas { width: 100%; aspect-ratio: 4/3; }
+    .model-canvas p { text-align: center; color: #4b5563; }
   </style>
 </head>
 <body>
@@ -24,50 +25,53 @@
     </div>
   </header>
   <main class="container mx-auto px-4 py-8">
+    <div class="bg-white p-4 rounded-lg shadow mb-6">
+      <p class="text-lg text-gray-700">You can interact with the models! Click and drag to rotate, scroll to zoom, right-click to pan.</p>
+    </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       <div class="bg-white p-4 rounded-lg shadow">
-        <h2 class="text-xl font-semibold mb-2">CIM Main</h2>
-        <div id="canvas-CIM_Main" class="model-canvas"></div>
+        <h2 class="text-xl font-semibold mb-2">Charging Cart Enclosure Base</h2>
+        <div id="canvas-CIM_Main" class="model-canvas" aria-label="3D model of CIM Main"></div>
       </div>
       <div class="bg-white p-4 rounded-lg shadow">
-        <h2 class="text-xl font-semibold mb-2">CIM Top Lid</h2>
-        <div id="canvas-CIM_Top_Lid" class="model-canvas"></div>
+        <h2 class="text-xl font-semibold mb-2">Charging Cart Enclosure Lid</h2>
+        <div id="canvas-CIM_Top_Lid" class="model-canvas" aria-label="3D model of CIM Top Lid"></div>
       </div>
       <div class="bg-white p-4 rounded-lg shadow">
-        <h2 class="text-xl font-semibold mb-2">Dashboard Cover</h2>
-        <div id="canvas-Dashboard_Cover" class="model-canvas"></div>
+        <h2 class="text-xl font-semibold mb-2">Dashboard Lid</h2>
+        <div id="canvas-Dashboard_Cover" class="model-canvas" aria-label="3D model of Dashboard Cover"></div>
       </div>
       <div class="bg-white p-4 rounded-lg shadow">
         <h2 class="text-xl font-semibold mb-2">Dashboard Enclosure</h2>
-        <div id="canvas-Dashboard_Enclosure" class="model-canvas"></div>
+        <div id="canvas-Dashboard_Enclosure" class="model-canvas" aria-label="3D model of Dashboard Enclosure"></div>
       </div>
       <div class="bg-white p-4 rounded-lg shadow">
-        <h2 class="text-xl font-semibold mb-2">RSM Enclosure Inside</h2>
-        <div id="canvas-RSM_Enclosure_Inside" class="model-canvas"></div>
+        <h2 class="text-xl font-semibold mb-2">Rear Sensor Module Lid</h2>
+        <div id="canvas-RSM_Enclosure_Inside" class="model-canvas" aria-label="3D model of RSM Enclosure Inside"></div>
       </div>
       <div class="bg-white p-4 rounded-lg shadow">
-        <h2 class="text-xl font-semibold mb-2">RSM Enclosure Outside</h2>
-        <div id="canvas-RSM_Enclosure_Outside" class="model-canvas"></div>
+        <h2 class="text-xl font-semibold mb-2">Rear Sensor Module Base</h2>
+        <div id="canvas-RSM_Enclosure_Outside" class="model-canvas" aria-label="3D model of RSM Enclosure Outside"></div>
       </div>
       <div class="bg-white p-4 rounded-lg shadow">
-        <h2 class="text-xl font-semibold mb-2">Telem Base</h2>
-        <div id="canvas-Telem_Base" class="model-canvas"></div>
+        <h2 class="text-xl font-semibold mb-2">Telemetry Enclosure Base</h2>
+        <div id="canvas-Telem_Base" class="model-canvas" aria-label="3D model of Telem Base"></div>
       </div>
       <div class="bg-white p-4 rounded-lg shadow">
-        <h2 class="text-xl font-semibold mb-2">Telem Top</h2>
-        <div id="canvas-Telem_Top" class="model-canvas"></div>
+        <h2 class="text-xl font-semibold mb-2">Telemetry Enclosure Top</h2>
+        <div id="canvas-Telem_Top" class="model-canvas" aria-label="3D model of Telem Top"></div>
       </div>
       <div class="bg-white p-4 rounded-lg shadow">
-        <h2 class="text-xl font-semibold mb-2">VC Base</h2>
-        <div id="canvas-VC_Base" class="model-canvas"></div>
+        <h2 class="text-xl font-semibold mb-2">Vehicle Controller Base</h2>
+        <div id="canvas-VC_Base" class="model-canvas" aria-label="3D model of VC Base"></div>
       </div>
       <div class="bg-white p-4 rounded-lg shadow">
-        <h2 class="text-xl font-semibold mb-2">VC Connector Wall</h2>
-        <div id="canvas-VC_Connector_Wall" class="model-canvas"></div>
+        <h2 class="text-xl font-semibold mb-2">Vehicle Controller Connector Wall</h2>
+        <div id="canvas-VC_Connector_Wall" class="model-canvas" aria-label="3D model of VC Connector Wall"></div>
       </div>
       <div class="bg-white p-4 rounded-lg shadow">
-        <h2 class="text-xl font-semibold mb-2">VC Lid</h2>
-        <div id="canvas-VC_Lid" class="model-canvas"></div>
+        <h2 class="text-xl font-semibold mb-2">Vehicle Controller Lid</h2>
+        <div id="canvas-VC_Lid" class="model-canvas" aria-label="3D model of VC Lid"></div>
       </div>
     </div>
   </main>
@@ -86,13 +90,25 @@
       "VC_Lid"
     ];
 
+    const scenes = [];
+    const renderers = [];
+    const cameras = [];
+    const controlsList = [];
+
     models.forEach(model => {
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
-      const renderer = new THREE.WebGLRenderer({ antialias: true });
       const canvas = document.getElementById(`canvas-${model}`);
-      
+      canvas.innerHTML = `<p>Loading ${model}...</p>`;
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      renderer.setPixelRatio(window.devicePixelRatio);
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      renderer.physicallyCorrectLights = true;
+
       renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+      canvas.innerHTML = '';
       canvas.appendChild(renderer.domElement);
 
       const controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -100,46 +116,81 @@
       controls.dampingFactor = 0.05;
 
       const loader = new THREE.GLTFLoader();
-      loader.load(`models/${model}.glb`, (gltf) => {
-        scene.add(gltf.scene);
-        const box = new THREE.Box3().setFromObject(gltf.scene);
-        const center = box.getCenter(new THREE.Vector3());
-        const size = box.getSize(new THREE.Vector3());
-        const maxDim = Math.max(size.x, size.y, size.z);
-        const distance = maxDim * 1.2;
-        camera.position.set(
-          center.x + distance * Math.cos(Math.PI / 4),
-          center.y + distance * Math.sin(Math.PI / 4),
-          center.z + distance * Math.sin(Math.PI / 4)
-        );
-        camera.lookAt(center);
-        controls.target.copy(center);
-        controls.update();
-      }, undefined, (error) => {
-        console.error(`Error loading ${model}:`, error);
-      });
+      loader.load(
+        `models/${model}.glb`,
+        (gltf) => {
+          gltf.scene.traverse((child) => {
+            if (child.isMesh) {
+              child.castShadow = true;
+              child.receiveShadow = true;
+            }
+          });
+          scene.add(gltf.scene);
+          const box = new THREE.Box3().setFromObject(gltf.scene);
+          const center = box.getCenter(new THREE.Vector3());
+          const size = box.getSize(new THREE.Vector3());
+          const maxDim = Math.max(size.x, size.y, size.z);
+          const distance = maxDim * 1.2;
+          camera.position.set(
+            center.x + distance * Math.cos(Math.PI / 4),
+            center.y + distance * Math.sin(Math.PI / 4),
+            center.z + distance * Math.sin(Math.PI / 4)
+          );
+          camera.lookAt(center);
+          controls.target.copy(center);
+          controls.update();
+        },
+        undefined,
+        (error) => {
+          console.error(`Error loading ${model}:`, error);
+          canvas.innerHTML = `<p class="text-red-500">Failed to load ${model}</p>`;
+        }
+      );
 
       scene.background = new THREE.Color(0xdddddd);
-      const light1 = new THREE.DirectionalLight(0xffffff, 0.5);
+      const light1 = new THREE.DirectionalLight(0xffffff, 0.8);
       light1.position.set(1, 1, 1);
+      light1.castShadow = true;
       scene.add(light1);
-      const light2 = new THREE.DirectionalLight(0xffffff, 0.5);
+      const light2 = new THREE.DirectionalLight(0xffffff, 0.8);
       light2.position.set(-1, -1, -1);
+      light2.castShadow = true;
       scene.add(light2);
-      scene.add(new THREE.AmbientLight(0x404040));
+      const light3 = new THREE.DirectionalLight(0xffffff, 0.5);
+      light3.position.set(0, 1, 0);
+      light3.castShadow = true;
+      scene.add(light3);
+      scene.add(new THREE.AmbientLight(0x404040, 1.2));
 
-      function animate() {
-        requestAnimationFrame(animate);
-        controls.update();
-        renderer.render(scene, camera);
-      }
-      animate();
+      const envMap = new THREE.CubeTextureLoader()
+        .setPath('https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/cube/skybox/')
+        .load(['px.jpg', 'nx.jpg', 'py.jpg', 'ny.jpg', 'pz.jpg', 'nz.jpg']);
+      scene.environment = envMap;
+
+      scenes.push(scene);
+      renderers.push(renderer);
+      cameras.push(camera);
+      controlsList.push(controls);
 
       window.addEventListener('resize', () => {
         renderer.setSize(canvas.clientWidth, canvas.clientHeight);
         camera.aspect = canvas.clientWidth / canvas.clientHeight;
         camera.updateProjectionMatrix();
       });
+    });
+
+    function animate() {
+      requestAnimationFrame(animate);
+      controlsList.forEach(controls => controls.update());
+      renderers.forEach((renderer, i) => {
+        renderer.render(scenes[i], cameras[i]);
+      });
+    }
+    animate();
+
+    window.addEventListener('unload', () => {
+      renderers.forEach(renderer => renderer.dispose());
+      window.removeEventListener('resize', () => {});
     });
   </script>
 </body>
