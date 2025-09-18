@@ -34,10 +34,6 @@
         <div id="canvas-CIM_Main" class="model-canvas" aria-label="3D model of CIM Main"></div>
       </div>
       <div class="bg-white p-4 rounded-lg shadow">
-        <h2 class="text-xl font-semibold mb-2">Charging Cart Enclosure Lid</h2>
-        <div id="canvas-CIM_Top_Lid" class="model-canvas" aria-label="3D model of CIM Top Lid"></div>
-      </div>
-      <div class="bg-white p-4 rounded-lg shadow">
         <h2 class="text-xl font-semibold mb-2">Dashboard Lid</h2>
         <div id="canvas-Dashboard_Cover" class="model-canvas" aria-label="3D model of Dashboard Cover"></div>
       </div>
@@ -62,6 +58,14 @@
         <div id="canvas-Telem_Top" class="model-canvas" aria-label="3D model of Telem Top"></div>
       </div>
       <div class="bg-white p-4 rounded-lg shadow">
+        <h2 class="text-xl font-semibold mb-2">Lower Front Sensor Module Enclosure</h2>
+        <div id="canvas-Lower_Part_FSM_Enclosure" class="model-canvas" aria-label="3D model of Lower Part FSM Enclosure"></div>
+      </div>
+      <div class="bg-white p-4 rounded-lg shadow">
+        <h2 class="text-xl font-semibold mb-2">Upper Front Sensor Module Enclosure</h2>
+        <div id="canvas-Upper_Part_FSM_Enclosure" class="model-canvas" aria-label="3D model of Upper Part FSM Enclosure"></div>
+      </div>
+      <div class="bg-white p-4 rounded-lg shadow">
         <h2 class="text-xl font-semibold mb-2">Vehicle Controller Base</h2>
         <div id="canvas-VC_Base" class="model-canvas" aria-label="3D model of VC Base"></div>
       </div>
@@ -78,24 +82,27 @@
   <script>
     const models = [
       "CIM_Main",
-      "CIM_Top_Lid",
       "Dashboard_Cover",
       "Dashboard_Enclosure",
       "RSM_Enclosure_Inside",
       "RSM_Enclosure_Outside",
       "Telem_Base",
       "Telem_Top",
+      "Lower_Part_FSM_Enclosure",
+      "Upper_Part_FSM_Enclosure",
       "VC_Base",
       "VC_Connector_Wall",
       "VC_Lid"
     ];
 
-    const scenes = [];
+  const scenes = [];
+  const modelObjects = []; // Store loaded model scenes for rotation
+  const rotationActive = []; // Track if rotation is active for each model
     const renderers = [];
     const cameras = [];
     const controlsList = [];
 
-    models.forEach(model => {
+    models.forEach((model, idx) => {
       const canvas = document.getElementById(`canvas-${model}`);
       canvas.innerHTML = `<p>Loading ${model}...</p>`;
 
@@ -114,6 +121,21 @@
       const controls = new THREE.OrbitControls(camera, renderer.domElement);
       controls.enableDamping = true;
       controls.dampingFactor = 0.05;
+      controls.enabled = false; // Start with controls disabled
+
+      // Track rotation state for this model
+      rotationActive[idx] = true;
+
+      // Pause rotation and enable controls on hover
+      canvas.addEventListener('mouseenter', () => {
+        rotationActive[idx] = false;
+        controls.enabled = true;
+      });
+      // Resume rotation and disable controls on mouse leave
+      canvas.addEventListener('mouseleave', () => {
+        rotationActive[idx] = true;
+        controls.enabled = false;
+      });
 
       const loader = new THREE.GLTFLoader();
       loader.load(
@@ -126,6 +148,7 @@
             }
           });
           scene.add(gltf.scene);
+          modelObjects[idx] = gltf.scene; // Store for rotation
           const box = new THREE.Box3().setFromObject(gltf.scene);
           const center = box.getCenter(new THREE.Vector3());
           const size = box.getSize(new THREE.Vector3());
@@ -181,6 +204,12 @@
 
     function animate() {
       requestAnimationFrame(animate);
+      // Rotate each loaded model scene if rotation is active
+      modelObjects.forEach((obj, i) => {
+        if (obj && rotationActive[i]) {
+          obj.rotation.y += 0.01;
+        }
+      });
       controlsList.forEach(controls => controls.update());
       renderers.forEach((renderer, i) => {
         renderer.render(scenes[i], cameras[i]);
